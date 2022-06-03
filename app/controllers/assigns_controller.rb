@@ -15,6 +15,7 @@ class AssignsController < ApplicationController
   end
 
   def destroy
+    binding.irb
     user = current_user
     assign = Assign.find(params[:id])
     if user == assign.team.owner || user.id == assign.user_id
@@ -23,6 +24,15 @@ class AssignsController < ApplicationController
     else
       redirect_to team_url(params[:team_id]), notice: "削除権限がありません"
     end
+  end
+
+  def change_owner
+    @team   = Team.friendly.find(params[:team_id])
+    @assign = Assign.find(params[:assign_id])
+    @team.owner_id = @assign.user_id
+    @team.save
+    AssignMailer.assign_mail(@team.owner.email, @team.owner.email).deliver
+    redirect_to team_path(@team), notice: "管理者権限を移動しました"
   end
 
   private
