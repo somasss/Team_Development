@@ -32,7 +32,7 @@ class AssignsController < ApplicationController
     @team.owner_id = @assign.user_id
     @team.save
     AssignMailer.assign_mail(@team.owner.email, @team.owner.email).deliver
-    redirect_to team_path(@team), notice: "管理者権限を移動しました"
+    redirect_to team_path(@team), notice: "管理者権限を移動しまし"
   end
 
   private
