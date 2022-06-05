@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'statics#top'
   get :dashboard, to: 'teams#dashboard'
+  delete :dashboard, to: 'teams#dashboard'
 
   devise_for :users, controllers: {
     sessions: 'users/sessions',
@@ -14,6 +15,7 @@ Rails.application.routes.draw do
       post"change_owner"
     end
     resources :agendas, shallow: true do
+      delete"destroy"
       resources :articles do
         resources :comments
       end
